@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<!-- 체크박스를 위한 fn -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,7 +11,7 @@
 	</head>
 	<body>
 		<h2>회원 정보 수정</h2>
-			<form action="doUpdateMForm" method="get" name="mfrm">
+			<form action="doMForm" method="get" name="mfrm">
 			<label>아이디</label>
 			<input type="text" name="id" value="${mdto.id }"><br>
 			<label>패스워드</label>
@@ -32,6 +33,39 @@
 		     <input type="radio" name="gender" id="female" value="female">
 		     </c:if>
 		    <label for="female">여자</label>
+		    <br>
+		    
+		    <select name="job">
+		     <c:if test="${mdto.job=='worker'}">
+				<option value="worker" selected>회사원</option>
+			 </c:if>
+		     <c:if test="${mdto.job!='worker'}">
+				<option value="worker" >회사원</option>
+			 </c:if>
+			 
+		     <c:if test="${mdto.job=='self'}">
+				<option value="self" selected>자영업</option>
+			 </c:if>
+		     <c:if test="${mdto.job!='self'}">
+				<option value="self">자영업</option>
+			 </c:if>
+			 
+		     <c:if test="${mdto.job=='freelancer'}">
+				<option value="freelancer" selected>프리랜서</option>
+			 </c:if>
+		     <c:if test="${mdto.job!='freelancer'}">
+				<option value="freelancer">프리랜서</option>
+			 </c:if>
+			 
+		     <c:if test="${mdto.job=='housewife'}">
+				<option value="housewife" selected>전업주부</option>
+			 </c:if>
+		     <c:if test="${mdto.job!='worhousewifeker'}">
+				<option value="housewife" >전업주부</option>
+			 </c:if>
+			</select>
+		    
+		    
 		    <br>
 			<label>취미</label><br>
 			<c:if test="${fn:contains( mdto.hobby ,'game') }">
@@ -62,22 +96,12 @@
 				<input type="checkbox" name="hobbys" id="book" value="book" >
 			</c:if>	
 			<label for ="book">독서</label>
-			<c:if test="${fn:contains( mdto.hobby ,'golf') }">
-				<input type="checkbox" name="hobbys" id="golf" value="golf" checked>
+			<c:if test="${fn:contains( mdto.hobby ,'swim') }">
+				<input type="checkbox" name="hobbys" id="swim" value="swim" checked>
 			</c:if>
-			<c:if test="${not fn:contains( mdto.hobby ,'golf') }">
-				<input type="checkbox" name="hobbys" id="golf" value="golf" >
+			<c:if test="${not fn:contains( mdto.hobby ,'swim') }">
+				<input type="checkbox" name="hobbys" id="swim" value="swim" >
 			</c:if>	
-			<label for ="golf">골프</label>
-			
-			
-			
-			
-			<input type="checkbox" name="hobbys" id="run" value="run">
-			<label for ="run">조깅</label>
-			<input type="checkbox" name="hobbys" id="book" value="book">
-			<label for ="book">독서</label>
-			<input type="checkbox" name="hobbys" id="swim" value="swim">
 			<label for ="swim">수영</label>
 			<br>
 			<input type="submit" value="전송">

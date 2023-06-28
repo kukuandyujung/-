@@ -18,6 +18,7 @@
 				location.href= "boardDelete?bno=${bdto.bno}";
 			}
 		}
+	
 	</script>
   <style>
   	.list{cursor: printer;}
@@ -26,13 +27,11 @@
 <body>
 <section>
     <h1>NOTICE</h1>
-
     <table>
       <colgroup>
         <col width="80%">
         <col width="10%">
         <col width="10%">
-        
       </colgroup>
       <tr>
         <th colspan="3">제목</th>
@@ -41,7 +40,7 @@
         <td colspan="3"><strong>${bdto.btitle}</strong></td>
       </tr>
       <tr>
-        <td>${bdto.id}.</td>
+        <td>${bdto.id}</td>
         <td>조회수</td>
         <td>${bdto.bhit}</td>
       </tr>
@@ -53,26 +52,27 @@
         <td colspan="3" class="article"><strong>파일</strong> <span class="separator">|</span> ${bdto.bfile }</td>
       </tr>
       <tr>
-        <td colspan="3"> 
-        <c:if test="${bdto.bfile!=null}">
-      		<img src="/images/${bdto.bfile}">
-      	  </c:if>
-      	  <c:if test="${bdto.bfile==null}">
-      		<strong>업로드 된 파일이 없습니다.</strong>
-      	  </c:if>
+        <td colspan="3" class="article">
+        <c:if test="${bdto.bfile!=null }">
+	        <img src = "/images/${bdto.bfile }" >
+        </c:if>
+        <c:if test="${bdto.bfile==null }">
+	        <strong>업로드된 파일이 없습니다</strong>
+        </c:if>
+        </td>
       </tr>
       <tr>
-        <td colspan="3"><strong>다음글</strong> <span class="separator">|</span> [키즈잼] 2월 프로그램 안내</td>
+        <td colspan="3"><strong>다음글</strong> <span class="separator">|</span> <a href="/board/boardView?bno=${nextDto.bno }&page=${page}&category=${category}&s_word=${s_word}">  ${nextDto.btitle } </a> </td>
       </tr>
       <tr>
-        <td colspan="3"><strong>이전글</strong> <span class="separator">|</span> [키즈잼] 2020년 1분기 정기 휴관일 안내</td>
+        <td colspan="3"><strong>이전글</strong> <span class="separator">|</span> <a href="/board/boardView?bno=${prevDto.bno }&page=${page}&category=${category}&s_word=${s_word}"> ${prevDto.btitle} </a></td>
       </tr>
     </table>
 	
-    <a href="boardList"><div class="list">목록</div></a>
+    <a href="boardList?page=${page}&category=${category}&s_word=${s_word}"><div class="list">목록</div></a>
     <a onclick="deleteBtn()"><div class="list">삭제</div></a>
-    <a href="boardUpdate?bno=${bdto.bno}"><div class="list">수정</div></a>
-    <a href="boardReply?bno=${bdto.bno}"><div class="list">답변달기</div></a>
+    <a href="boardUpdate?bno=${bdto.bno}&page=${page}&category=${category}&s_word=${s_word}"><div class="list">수정</div></a>
+    <a href="boardReply?bno=${bdto.bno}&page=${page}&category=${category}&s_word=${s_word}"><div class="list">답변달기</div></a>
   </section>
 </body>
 </html>

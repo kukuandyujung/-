@@ -14,11 +14,13 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper boardMapper;
 	
 	@Override //게시글 전체가져오기
-	public HashMap<String,Object> selectAll(int page) {
-		HashMap<String, Object> map = new HashMap<>();
+	public HashMap<String,Object> selectAll(int page, String category, String s_word) {
 		
+		
+		HashMap<String, Object> map = new HashMap<>();
 		//게시글 전체개수
-		int listCount = boardMapper.selectListCount();
+		int listCount = boardMapper.selectListCount(category, s_word);
+		System.out.println("BoardServiceImpl listCount : " + listCount);;
 		//최대페이지
 		int maxPage = (int)Math.ceil((double)listCount/10); // 26/10 3개page
 		int startPage = (int)((page-1)/10)*10 + 1; //1
@@ -29,22 +31,45 @@ public class BoardServiceImpl implements BoardService {
 		if(endPage>maxPage) endPage=maxPage;
 		
 	
-		ArrayList<BoardDto> list = boardMapper.selectAll(startRow, endRow);
+		ArrayList<BoardDto> list = boardMapper.selectAll(startRow, endRow, category,s_word);
 		map.put("list", list);
 		map.put("listCount", listCount);
 		map.put("maxPage", maxPage);
 		map.put("startPage", startPage);
 		map.put("endPage", endPage);
 		map.put("page", page);
+		map.put("category", category);
+		map.put("s_word", s_word);
 		
 		return map;
 	}
+	
+	
+	
+	
+	
 	@Override
-	public BoardDto selectOne(int bno) {
+	public HashMap<String, Object> selectOne(int bno) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		//조회수 1 증가 
+		boardMapper.updateBhitUp(bno);
+		
+		
 		//게시글 1개가져오기
+		//이전 게시글, 다음 게시글 가져오기 
+		BoardDto preDto = boardMapper.selectPreOne(bno);
 		BoardDto bdto = boardMapper.selectOne(bno);
-		return bdto;
+		BoardDto nextDto = boardMapper.selectNextOne(bno);
+		map.put("prevDto", preDto);
+		map.put("nextDto", nextDto);
+		map.put("bdto", bdto);
+		return map;
+	
+		
 	}
+	
+	
 	@Override
 	public void insertOne(BoardDto bdto) {
 		//게시글 1개 저장

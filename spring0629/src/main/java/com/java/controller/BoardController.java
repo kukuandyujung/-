@@ -43,12 +43,12 @@ public class BoardController {
 	
 	
 	@RequestMapping("board/commentInsert")
-	@ResponseBody 
+	@ResponseBody //중요!!!!
 	//@ResponseBody 그냥 데이터로 던져 줘! 그리고 저장!
 	public CommentDto commentInsert(CommentDto comDto) {
 		System.out.println("ajax 넘어온 데이터 1: " + comDto.getCcontent());
 		//여기는 데이터를 돌려줘야 하는 것이다.
-		//하단 댓글 저장
+		//하단 댓글 저장, 1개 가져오기 
 		CommentDto cdto = boardService.commentInsert(comDto);
 		
 		return cdto;

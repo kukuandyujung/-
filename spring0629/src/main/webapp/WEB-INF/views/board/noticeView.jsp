@@ -16,6 +16,8 @@
 <link rel="stylesheet" type="text/css" href="../css/layout.css?v=Y" />
 <link rel="stylesheet" type="text/css" href="../css/content.css?v=Y" />
 <script type="text/javascript" src="../js/jquery.min.js"></script>
+<!-- 날짜 포맷함수 -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script type="text/javascript" src="../js/top_navi.js"></script>
 <script type="text/javascript" src="../js/left_navi.js"></script>
 <script type="text/javascript" src="../js/main.js"></script>
@@ -45,8 +47,14 @@
 			</div>
 			<div id="snb">
 				<ul>
-					<li><a href="#">LOGIN</a></li>
+					<c:if test="${sessionId==null }">
+					<li><a href="/member/login">LOGIN</a></li>
 					<li><a href="#">JOIN</a></li>
+					</c:if>
+					<c:if test="${sessionId!=null }">
+					<li><a href="#">${sessionName }님</a></li>
+					<li><a onclick="logoutBtn()" style="cursor: pointer;">LOGOUT</a></li>
+					</c:if>
 					<li><a href="#">MY PAGE</a></li>
 					<li><a href="#">CART</a></li>
 				</ul>
@@ -207,20 +215,54 @@
 					<!-- //이전다음글 -->
 					<script type="text/javascript">
 						function commentBtn(){
-							alert($(".replyType").val()); //제이쿼리 구문
-							alert($(".replynum").val());
+							if("${sessionId}"==""){
+								alert("로그인을 해야 댓글 입력이 가능");
+								location.href="/member/login";
+								return false;
+							}
+							
+							if($(".replyType").val().length<3){
+								alert("두 글자 이상 입력하셔야 등록이 가능합니다.");
+								return false;
+							}
+							
+							alert("댓글 저장합니다.");
+							
+							
+// 							alert($(".replyType").val()); //제이쿼리 구문
+// 							alert($(".replynum").val());
 							
 							//ajax 구문
 							$.ajax({
 								url:"/board/commentInsert",
 								type:"post",									
-								data:{"id" : "aaa", //${sessionId}를 사용한다  
+								data:{"id" : "${sessionId}", //${sessionId}를 사용한다  
 									"bno": "${bdto.bno}",
 									"ccontent" :$(".replyType").val(),
 									"cpw": $(".replynum").val()
 								},
 								success: function(data){
-									alert("성공");
+									var dataHtml="";
+								
+									
+									  alert("댓글 저장 성공");
+	                    			  //하단댓글 1개 가져오기
+	                    			  console.log(data);
+	                    			  //하단에 댓글추가코드
+	                    			   dataHtml += "<ul id='"+ data.cno +"'>";
+                    			  	   dataHtml += "<li class='name'>"+ data.id +"<span>&nbsp&nbsp[ "+ moment(data.cdate).format("YYYY-MM-DD HH:mm:ss") +" ]</span></li>";
+                    			       dataHtml += "<li class='txt'>"+ data.ccontent +"</li>";
+                    			       dataHtml += "<li class='btn'>";
+                    			       dataHtml += "<a href='#' class='rebtn'>수정</a>&nbsp";
+                    			       dataHtml += "<a href='#' class='rebtn'>삭제</a>";
+                    			       dataHtml += "</li>";
+                    			       dataHtml += "</ul>";
+	                    			   $(".replyBox").prepend(dataHtml);  //prepend(위),append(아래),html(모두삭제후 추가)
+	                    			 
+	                    			   //글자삭제
+	                    			   $(".replyType").val("");
+	                    			   $(".replynum").val("");
+									
 									
 								},
 								error: function(){
@@ -247,8 +289,8 @@
 
 					<div class="replyBox">
 					<c:forEach var="comDto" items="${comList}">
-						<ul>
-							<li class="name">${comDto.id} <span>[  ${comDto.cdate}  ]</span></li>
+						<ul id="${comDto.cno }">
+							<li class="name">${comDto.id }<span>[ <fmt:formatDate pattern = "yyyy-MM-dd hh:mm:ss" value="${comDto.cdate}"/>	]</span></li>
 							<li class="txt">${comDto.ccontent}</li>
 							<li class="btn">
 								<a href="#" class="rebtn">수정</a>
@@ -359,11 +401,11 @@ $(function(){
 				<div id="flogo"><img src="../images/txt/flogo.gif" alt="JARDIN THE COFFEE CREATOR, SINCE 1984" /></div>
 				<address>
 					<ul>
-						<li>㈜쟈뎅</li>
-						<li>대표자 윤영노</li>
-						<li class="tnone">주소 서울시 강남구 논현동 4-21번지 영 빌딩</li>
+						<li>㈜유정</li>
+						<li>대표자 김꾸꾸</li>
+						<li class="tnone">주소 경기도 고양시 덕양구 화신로 꾸꾸네</li>
 						<li class="webnone">소비자상담실 02)546-3881</li>
-						<li>사업자등록번호 211-81-24727</li>
+						<li>사업자등록번호 010-4162-8759</li>
 						<li class="tnone">통신판매신고 제 강남 – 1160호</li>
 						<li class="copy">COPYRIGHT © 2014 JARDIN <span>ALL RIGHTS RESERVED.</span></li>
 					</ul>

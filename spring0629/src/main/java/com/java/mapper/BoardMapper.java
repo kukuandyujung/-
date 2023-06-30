@@ -23,5 +23,8 @@ public interface BoardMapper {
 	//하단 댓글 저장하기 
 	void commentInsert(CommentDto comDto); //리턴 타입이 없어야 한다. insert이기 때문에 
 
+	//하단 댓글 1개 가져오기 
+	CommentDto selectComOne(CommentDto comDto);
+
 	
 }

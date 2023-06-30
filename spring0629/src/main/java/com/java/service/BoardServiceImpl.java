@@ -47,9 +47,8 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println( "BoardServiceImpl comDto cno : " + comDto.getCno());
 		System.out.println( "BoardServiceImpl comDto cdate : " + comDto.getCdate());
 		//바로 하단 댓글 1개 가져오기를 동시에 한다. 
-//		CommentDto cdto = boardMapper.selectComOne(comDto);
-		return null;
-//		return cdto;
+		CommentDto cdto = boardMapper.selectComOne(comDto);
+		return cdto;
 	}
 
 

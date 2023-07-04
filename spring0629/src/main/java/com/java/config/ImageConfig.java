@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ImageConfig implements WebMvcConfigurer{
 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/images/**")
+		registry.addResourceHandler("upload/**")
 		.addResourceLocations("file:///c:/upload/");
 	}
 

@@ -31,6 +31,18 @@
 	select * from commentboard where cno=#{cno}
 </select>
 
+<!-- 하단 댓글 1개 삭제  -->
+<delete id="commentDelete">
+	delete commentboard where cno=#{cno}
+</delete>
+<!-- 하단 댓글 수정 저장  -->
+<update id="commentUpdateSave">
+	update commentboard set cpw=#{cpw},ccontent=#{ccontent}, cdate=sysdate where cno=#{cno}
+</update>
+
+
+
+
 <!-- 1.  append() 는 그냥 선택한 블록에 제일 마지막으로 넣어주는 것 (기존의 내용이 있으면 그 뒤에) -->
 <!-- 2. prepend() 는 그냥 선택한 블록에 제일 첫번째로 넣어주는 것 (기존의 내용이 있어도 그 앞에) -->
 
